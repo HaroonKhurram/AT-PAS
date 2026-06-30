@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Leave - AT-PAS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/student/student_leave.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='Images/AT-PAS(logo).jpg') }}" alt="AT-PAS Logo">
+                <h3>Student Portal</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('student_dashboard') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('student_my_dashboard') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <line x1="3" y1="9" x2="21" y2="9" />
+                            <line x1="9" y1="21" x2="9" y2="9" />
+                        </svg>
+                        <span>My Dashboard</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('student_attendance') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>My Attendance</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('student_apply_leave') }}">
+                    <div class="nav-item active">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                        </svg>
+                        <span>Leave Section</span>
+                    </div>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="{{ url_for('logout') }}" style="text-decoration: none;">
+                    <button class="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="top-header">
+                <div class="header-content">
+                    <h1>Leave Section</h1>
+                    <div class="header-actions">
+                        <div class="date-display">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>{{ current_date }}</span>
+                        </div>
+                        <a href="{{ url_for('student_apply_leave') }}"
+                            style="color: inherit; text-decoration: none; position: relative;">
+                            <img src="{{ url_for('static', filename='Images/notification.jpg') }}" alt="Notifications"
+                                style="width: 24px; height: 24px;">
+                            {% if notification_count > 0 %}
+                            <span class="badge"
+                                style="position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%;">
+                                {{ notification_count }}
+                            </span>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-area">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="flash-messages" style="margin-bottom: 20px;">
+                    {% for message in messages %}
+                    <div class="alert"
+                        style="background-color: #d1fae5; color: #065f46; padding: 10px; border-radius: 6px; margin-bottom: 10px;">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <div class="leave-grid">
+                    <!-- Leave Request Form -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h2>📝 Submit New Leave Request</h2>
+                            <p>Fill out the form below to request leave</p>
+                        </div>
+
+                        <div class="form-card">
+                            <form class="leave-form" method="POST" action="{{ url_for('student_apply_leave') }}"
+                                enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="subject">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:18px;height:18px;">
+                                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                                        </svg>
+                                        Subject Selection
+                                    </label>
+                                    <select id="subject" name="subject" class="form-control" required>
+                                        <option value="">Select Subject or "Full Day"</option>
+                                        <option value="Full Day">Full Day</option>
+                                        {% for sub in subjects %}
+                                        <option value="{{ sub.name }}">{{ sub.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="leave-date">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:18px;height:18px;">
+                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                            <line x1="16" y1="2" x2="16" y2="6" />
+                                            <line x1="8" y1="2" x2="8" y2="6" />
+                                            <line x1="3" y1="10" x2="21" y2="10" />
+                                        </svg>
+                                        Leave Date
+                                    </label>
+                                    <input type="date" id="leave-date" name="date" class="form-control" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reason">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:18px;height:18px;">
+                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                                            <polyline points="14 2 14 8 20 8" />
+                                            <line x1="16" y1="13" x2="8" y2="13" />
+                                            <line x1="16" y1="17" x2="8" y2="17" />
+                                        </svg>
+                                        Reason for Leave
+                                    </label>
+                                    <textarea id="reason" name="reason" class="form-control" rows="5"
+                                        placeholder="Please provide a detailed reason for your leave request..."
+                                        required></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:18px;height:18px;">
+                                            <path
+                                                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+                                        </svg>
+                                        Supporting Document (Optional)
+                                    </label>
+                                    <div class="file-upload-wrapper">
+                                        <label for="file-upload" class="file-upload-label">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                style="width:32px;height:32px;">
+                                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                                <polyline points="17 8 12 3 7 8" />
+                                                <line x1="12" y1="3" x2="12" y2="15" />
+                                            </svg>
+                                            <span class="upload-text">Click to upload or drag and drop</span>
+                                            <span class="upload-hint">PDF, JPG, JPEG, PNG (MAX. 10MB)</span>
+                                        </label>
+                                        <input id="file-upload" type="file" name="attachment"
+                                            accept=".pdf,.jpg,.jpeg,.png">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="submit-btn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        style="width:20px;height:20px;">
+                                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                        <polyline points="22 4 12 14.01 9 11.01" />
+                                    </svg>
+                                    Submit Leave Request
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Application Status -->
+                    <div class="status-section">
+                        <div class="section-header">
+                            <h2>📋 Application Status</h2>
+                            <p>Track your leave request submissions</p>
+                        </div>
+
+                        <div class="status-list">
+                            {% for req in history %}
+                            <div
+                                class="status-card {{ 'approved' if req.status == 'Approved' else 'rejected' if req.status == 'Rejected' else 'pending' }}">
+                                <div class="status-header">
+                                    <div class="status-icon">
+                                        {% if req.status == 'Approved' %}
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:24px;height:24px;">
+                                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                                            <polyline points="22 4 12 14.01 9 11.01" />
+                                        </svg>
+                                        {% elif req.status == 'Rejected' %}
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:24px;height:24px;">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="15" y1="9" x2="9" y2="15" />
+                                            <line x1="9" y1="9" x2="15" y2="15" />
+                                        </svg>
+                                        {% else %}
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            style="width:24px;height:24px;">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <polyline points="12 6 12 12 16 14" />
+                                        </svg>
+                                        {% endif %}
+                                    </div>
+                                    <span
+                                        class="status-badge {{ 'approved' if req.status == 'Approved' else 'rejected' if req.status == 'Rejected' else 'pending' }}">
+                                        {% if req.status == 'Pending' %}Pending Review{% else %}{{ req.status }}{% endif
+                                        %}
+                                    </span>
+                                </div>
+                                <div class="status-content">
+                                    <div class="status-detail">
+                                        <span class="detail-label">Date:</span>
+                                        <span class="detail-value">{{ req.date }}</span>
+                                    </div>
+                                    <div class="status-detail">
+                                        <span class="detail-label">Reason:</span>
+                                        <span class="detail-value" style="word-break: break-all;">{{ req.reason
+                                            }}</span>
+                                    </div>
+                                    <div class="admin-comment {{ 'pending-note' if req.status == 'Pending' else '' }}">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            {% if req.status == 'Pending' %}
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="12" y1="16" x2="12" y2="12" />
+                                            <line x1="12" y1="8" x2="12.01" y2="8" />
+                                            {% else %}
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                                            {% endif %}
+                                        </svg>
+                                        {% if req.admin_comment %}
+                                        "{{ req.admin_comment }}"
+                                        {% else %}
+                                        {% if req.status == 'Pending' %}
+                                        Your request is under review. You will be notified soon.
+                                        {% else %}
+                                        No comment.
+                                        {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    {% if req.attachment %}
+                                    <div class="status-detail" style="margin-top: 10px;">
+                                        <a href="{{ url_for('uploaded_file', filename=req.attachment) }}"
+                                            target="_blank"
+                                            style="color: blue; text-decoration: underline; font-size: 0.9em;">View
+                                            Attachment</a>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% else %}
+                            <p style="text-align: center; color: #64748B; padding: 20px;">No leave requests found.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Quick Links</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Help & Support</a>
+                    </div>
+                    <div class="footer-credits">
+                        <p>&copy; 2025 AT-PAS | Designed by Haroon Khurram, Arham Rafique</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

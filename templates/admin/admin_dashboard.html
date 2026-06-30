@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AT-PAS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/admin_dashboard.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='Images/AT-PAS(logo).jpg') }}" alt="AT-PAS Logo">
+                <h3>Admin Portal</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('admin_dashboard') }}">
+                    <div class="nav-item active">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('admin_user_management') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>User Management</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('admin_subject_allocation') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                        </svg>
+                        <span>Subject Allocation</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('admin_database_management') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                        <span>Database Settings</span>
+                    </div>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="{{ url_for('logout') }}" style="text-decoration: none;">
+                    <button class="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="top-header">
+                <div class="header-content">
+                    <h1>Admin Dashboard</h1>
+                </div>
+            </header>
+
+            <main class="content-area">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="flash-messages" style="margin-bottom: 20px;">
+                    {% for message in messages %}
+                    <div class="alert"
+                        style="background-color: #d1fae5; color: #065f46; padding: 10px; border-radius: 6px;">{{ message
+                        }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- System Info Banner -->
+                <div class="system-banner">
+                    <div class="banner-content">
+                        <p class="banner-text">System is running on the Fall-25 Dataset</p>
+                        <div class="banner-date">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>{{ current_date }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Key Metrics -->
+                <section class="metrics-section">
+                    <div class="section-header">
+                        <h2>Key Metrics Overview</h2>
+                        <p>Real-time insights into your system performance</p>
+                    </div>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                            </div>
+                            <div class="metric-info">
+                                <div class="metric-value">{{ student_count }}</div>
+                                <div class="metric-label">Total Students</div>
+                                <div class="metric-description">Active in Class</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <div class="metric-info">
+                                <div class="metric-value">{{ teacher_count }}</div>
+                                <div class="metric-label">Teaching Staff</div>
+                                <div class="metric-description">Assigned & Active</div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                                </svg>
+                            </div>
+                            <div class="metric-info">
+                                <div class="metric-value">{{ subject_count }}</div>
+                                <div class="metric-label">Subjects</div>
+                                <div class="metric-description">Currently Scheduled</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Database Management -->
+                <section class="db-management">
+                    <div class="section-header">
+                        <h2>Data Control Center</h2>
+                        <p>Manage and secure your system data</p>
+                    </div>
+                    <div class="action-panel">
+                        <div class="action-item">
+                            <div class="action-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                            </div>
+                            <div class="action-content">
+                                <h3>Download Backup</h3>
+                                <p>Last backup: 2 days ago</p>
+                            </div>
+                            <a href="{{ url_for('download_backup') }}"><button
+                                    class="action-button primary">Download</button></a>
+                        </div>
+
+                        <div class="action-item">
+                            <div class="action-icon danger">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path
+                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="action-content">
+                                <h3>Reset Attendance Data</h3>
+                                <p>Clear all attendance logs but keep user profiles</p>
+                            </div>
+                            <form action="{{ url_for('reset_attendance') }}" method="POST" style="display:inline;">
+                                <button type="submit" class="action-button danger"
+                                    onclick="return confirm('WARNING: This will delete ALL attendance history. Are you sure?');">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Quick Links</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Support</a>
+                    </div>
+                    <div class="footer-credits">
+                        <p>&copy; 2025 AT-PAS | Designed by Haroon Khurram, Arham Rafique</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

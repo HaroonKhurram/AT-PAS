@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Attendance Record - AT-PAS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/student/student_attendence.css') }}">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='Images/AT-PAS(logo).jpg') }}" alt="AT-PAS Logo">
+                <h3>Student Portal</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('student_dashboard') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('student_my_dashboard') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                            <line x1="3" y1="9" x2="21" y2="9" />
+                            <line x1="9" y1="21" x2="9" y2="9" />
+                        </svg>
+                        <span>My Dashboard</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('student_attendance') }}">
+                    <div class="nav-item active">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                        </svg>
+                        <span>My Attendance</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('student_leave') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                        </svg>
+                        <span>Leave Section</span>
+                    </div>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="{{ url_for('logout') }}" style="text-decoration: none;">
+                    <button class="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="top-header">
+                <div class="header-content">
+                    <h1>Attendance Analytics: {{ student.name }}</h1>
+                    <div class="header-actions">
+                        <div class="date-display">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>{{ current_date }}</span>
+                        </div>
+                        <a href="{{ url_for('student_apply_leave') }}"
+                            style="color: inherit; text-decoration: none; position: relative;">
+                            <img src="{{ url_for('static', filename='Images/notification.jpg') }}" alt="Notifications"
+                                style="width: 24px; height: 24px;">
+                            {% if notification_count > 0 %}
+                            <span class="badge"
+                                style="position: absolute; top: -5px; right: -5px; background: red; color: white; font-size: 10px; padding: 2px 5px; border-radius: 50%;">
+                                {{ notification_count }}
+                            </span>
+                            {% endif %}
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <!-- Subject-wise Attendance Breakdown -->
+                <div class="metrics-section">
+                    <div class="section-header">
+                        <h2>📊 Subject-wise Attendance Breakdown</h2>
+                        <p>Live data generated from your academic records</p>
+                    </div>
+
+                    <div class="powerbi-card">
+                        <div class="graph-wrapper"
+                            style="background: #1e293b; padding: 20px; border-radius: 12px; display: flex; justify-content: center;">
+                            {% if attendance_graph %}
+                            <img src="data:image/png;base64,{{ attendance_graph }}" alt="Attendance Graph"
+                                style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                            {% else %}
+                            <div class="powerbi-placeholder"
+                                style="background: transparent; color: white; border: none; min-height: 200px;">
+                                <p>No attendance data available to generate chart.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Entry Log / Detailed History -->
+                <div class="metrics-section">
+                    <div class="section-header">
+                        <h2>📅 Detailed Historical Log</h2>
+                        <p>Detailed record of your latest class markings</p>
+                    </div>
+
+                    <div class="history-card">
+                        <!-- Filters -->
+                        <div class="filters-container">
+                            <form method="GET" action="{{ url_for('student_attendance') }}" style="display: contents;">
+                                <div class="filter-group">
+                                    <label>Filter by Subject</label>
+                                    <select name="subject_filter" class="filter-select" onchange="this.form.submit()">
+                                        <option value="all">All Subjects</option>
+                                        {% for subject in subjects %}
+                                        <option value="{{ subject.id }}" {% if current_subject_filter==subject.id|string
+                                            %}selected{% endif %}>
+                                            {{ subject.code }} - {{ subject.name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label>Filter by Status</label>
+                                    <select name="status_filter" class="filter-select" onchange="this.form.submit()">
+                                        <option value="all">All Statuses</option>
+                                        <option value="Present" {% if current_status_filter=='Present' %}selected{%
+                                            endif %}>Present</option>
+                                        <option value="Absent" {% if current_status_filter=='Absent' %}selected{% endif
+                                            %}>Absent</option>
+                                        <option value="Leave" {% if current_status_filter=='Leave' %}selected{% endif
+                                            %}>Leave</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table class="attendance-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Subject Name</th>
+                                        <th>Time Slot</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in attendance_log %}
+                                    <tr>
+                                        <td>
+                                            <div class="table-date">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" style="width:16px; height:16px;">
+                                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                </svg>
+                                                {{ log.date }}
+                                            </div>
+                                        </td>
+                                        <td><strong>{{ log.subject.name if log.subject else 'N/A' }}</strong></td>
+                                        <td>{{ log.subject.schedule if log.subject else '--' }}</td>
+                                        <td>
+                                            {% if log.status == 'Present' %}
+                                            <span class="status-badge present">Present</span>
+                                            {% elif log.status == 'Absent' %}
+                                            <span class="status-badge absent">Absent</span>
+                                            {% elif log.status == 'Leave' %}
+                                            <span class="status-badge leave">Leave</span>
+                                            {% else %}
+                                            <span class="status-badge">{{ log.status }}</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4" style="text-align: center; padding: 2rem;">No attendance records
+                                            found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Quick Links</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Help & Support</a>
+                    </div>
+                    <div class="footer-credits">
+                        <p>&copy; 2025 AT-PAS | Designed by Haroon Khurram, Arham Rafique</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+</html>

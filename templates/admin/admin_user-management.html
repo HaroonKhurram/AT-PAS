@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - AT-PAS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/admin/admin_user-management.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Add Modal Styles manually since they might be missing in new CSS */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            animation: modalFadeIn 0.3s;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='Images/AT-PAS(logo).jpg') }}" alt="AT-PAS Logo">
+                <h3>Admin Portal</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="{{ url_for('admin_dashboard') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('admin_user_management') }}">
+                    <div class="nav-item active">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        <span>User Management</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('admin_subject_allocation') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z">
+                            </path>
+                        </svg>
+                        <span>Subject Allocation</span>
+                    </div>
+                </a>
+                <a href="{{ url_for('admin_database_management') }}">
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                        </svg>
+                        <span>Database Settings</span>
+                    </div>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="{{ url_for('logout') }}" style="text-decoration: none;">
+                    <button class="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        Logout
+                    </button>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="top-header">
+                <div class="header-content">
+                    <h1>User Management</h1>
+                    <div class="header-actions">
+                        <div class="date-display">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>{{ current_date }}</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="content-area">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="flash-messages" style="margin-bottom: 20px;">
+                    {% for message in messages %}
+                    <div class="alert"
+                        style="background-color: #d1fae5; color: #065f46; padding: 10px; border-radius: 6px;">{{ message
+                        }}</div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endwith %}
+
+                <!-- Tab Navigation -->
+                <div class="tab-container">
+                    <button class="tab-button active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                        Students
+                    </button>
+                    <!-- Link to Teacher Management Page -->
+                    <a href="{{ url_for('manage_teachers') }}" style="text-decoration:none;">
+                        <button class="tab-button">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            Teachers
+                        </button>
+                    </a>
+                </div>
+
+                <!-- Action Bar -->
+                <div class="action-bar">
+                    <div class="action-controls">
+                        <div class="search-box">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <path d="m21 21-4.35-4.35"></path>
+                            </svg>
+                            <form method="GET" action="{{ url_for('admin_user_management') }}"
+                                style="display: flex; flex: 1;">
+                                <input type="text" name="q" placeholder="Search by Name or Reg No..."
+                                    value="{{ request.args.get('q', '') }}">
+                            </form>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-primary" onclick="openAddStudentModal()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                                Add New Student
+                            </button>
+                            <!-- Import CSV Logic -->
+                            <button class="btn-secondary" onclick="document.getElementById('csvFile').click()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                Import CSV
+                            </button>
+                            <form id="importForm" action="{{ url_for('import_students') }}" method="POST"
+                                enctype="multipart/form-data" style="display:none;">
+                                <input type="file" id="csvFile" name="file" accept=".csv"
+                                    onchange="document.getElementById('importForm').submit()">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student Table -->
+                <div class="data-table-container" id="student-table">
+                    <div class="table-header">
+                        <h2>Student Data</h2>
+                        <div class="table-stats">
+                            <span class="stat-badge active">{{ students|length }} Active</span>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Reg No</th>
+                                    <th>Full Name</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    <td><span class="reg-no">{{ student.registration_no }}</span></td>
+                                    <td>{{ student.name }}</td>
+                                    <td><span class="status-badge active">Active</span></td>
+                                    <td class="action-cell">
+                                        <button class="action-link edit"
+                                            onclick="openEditModal('{{ student.id }}', '{{ student.name }}', '{{ student.registration_no }}')">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7">
+                                                </path>
+                                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z">
+                                                </path>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                        <a href="{{ url_for('delete_student', id=student.id) }}"
+                                            onclick="return confirm('Are you sure?');" style="text-decoration:none;">
+                                            <button class="action-link delete">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path
+                                                        d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                    </path>
+                                                </svg>
+                                                Delete
+                                            </button>
+                                        </a>
+                                        <a href="{{ url_for('reset_password_student', id=student.id) }}"
+                                            onclick="return confirm('Reset password?');" style="text-decoration:none;">
+                                            <button class="action-link reset">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2">
+                                                    <polyline points="23 4 23 10 17 10"></polyline>
+                                                    <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                                </svg>
+                                                Reset
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No students found.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+
+            <footer>
+                <div class="footer-content">
+                    <div class="footer-links">
+                        <a href="#">Quick Links</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Support</a>
+                    </div>
+                    <div class="footer-credits">
+                        <p>&copy; 2025 AT-PAS | Designed by Haroon Khurram, Arham Rafique</p>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div id="addStudentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddStudentModal()">&times;</span>
+            <h2>Add New Student</h2>
+            <form method="POST" action="{{ url_for('admin_user_management') }}">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required placeholder="e.g. John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="registration_no">Registration Number</label>
+                    <input type="text" id="registration_no" name="registration_no" required
+                        placeholder="e.g. 2025-DS-123">
+                </div>
+                <div style="margin-top: 20px; text-align: right;">
+                    <button type="submit" class="btn-primary" style="padding: 10px 20px;">Save Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div id="editStudentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2>Edit Student</h2>
+            <form method="POST" action="{{ url_for('update_student') }}">
+                <!-- Hidden input to store Student ID -->
+                <input type="hidden" id="edit_id" name="id">
+
+                <div class="form-group">
+                    <label for="edit_name">Full Name</label>
+                    <input type="text" id="edit_name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_registration_no">Registration Number</label>
+                    <input type="text" id="edit_registration_no" name="registration_no" required>
+                </div>
+                <div style="margin-top: 20px; text-align: right;">
+                    <button type="submit" class="btn-primary" style="padding: 10px 20px;">Update Student</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Add Modal Functions
+        function openAddStudentModal() {
+            document.getElementById("addStudentModal").style.display = "block";
+        }
+
+        function closeAddStudentModal() {
+            document.getElementById("addStudentModal").style.display = "none";
+        }
+
+        // Edit Modal Functions
+        function openEditModal(id, name, reg_no) {
+            document.getElementById("edit_id").value = id;
+            document.getElementById("edit_name").value = name;
+            document.getElementById("edit_registration_no").value = reg_no;
+            document.getElementById("editStudentModal").style.display = "block";
+        }
+
+        function closeEditModal() {
+            document.getElementById("editStudentModal").style.display = "none";
+        }
+
+        // Close Modals when clicking outside
+        window.onclick = function (event) {
+            var addModal = document.getElementById("addStudentModal");
+            var editModal = document.getElementById("editStudentModal");
+
+            if (event.target == addModal) {
+                addModal.style.display = "none";
+            }
+            if (event.target == editModal) {
+                editModal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+
+</html>

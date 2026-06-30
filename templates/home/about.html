@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-PAS | About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/home/about.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon"><img height="80px"
+                        src="{{ url_for('static', filename='Images/AT-PAS(logo).jpg') }}" alt="AT-PAS Logo"></div>
+            </a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}" class="nav-btn">Home</a></li>
+                <li><a href="{{ url_for('features') }}" class="nav-btn">Features</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav-btn ">About</a></li>
+                <li><a href="{{ url_for('login') }}" class="nav-btn primary">Login to Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
+
+    <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Building the Future of <span class="gradient-text">Academic Monitoring</span></h1>
+                <p>AT-PAS was developed as an AICT first semester main project with the primary goal of leveraging data
+                    science to solve real-world problems in student attendance management.</p>
+                <p>We aim to create a proactive feedback loop between students and faculty, minimizing academic risk
+                    through timely alerts and robust analytics.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <div class="section-header">
+            <div class="section-label">OUR MISSION</div>
+            <h2>The Problem-Solution Approach</h2>
+            <p>Understanding the challenges and how AT-PAS addresses them</p>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="comparison-card challenge">
+                <div class="card-badge challenge-badge">The Challenge</div>
+                <div class="card-content">
+                    <div class="problem-item">
+                        <div class="problem-icon">⚠️</div>
+                        <div class="problem-text">
+                            <h3>Reactive Warnings</h3>
+                            <p>Students often receive warnings only after they have failed to meet the required
+                                compliance percentage, leaving little time for corrective action.</p>
+                        </div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="problem-icon">📋</div>
+                        <div class="problem-text">
+                            <h3>Manual Reporting</h3>
+                            <p>Attendance data is isolated and difficult to visualize for trend analysis, making it hard
+                                to identify patterns early.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-card solution">
+                <div class="card-badge solution-badge">The Solution</div>
+                <div class="card-content">
+                    <div class="problem-item">
+                        <div class="problem-icon">🎯</div>
+                        <div class="problem-text">
+                            <h3>Predictive Alerting</h3>
+                            <p>AI-powered predictions identify at-risk students before attendance drops below threshold,
+                                enabling proactive intervention.</p>
+                        </div>
+                    </div>
+                    <div class="problem-item">
+                        <div class="problem-icon">📊</div>
+                        <div class="problem-text">
+                            <h3>Visual Analytics</h3>
+                            <p>Real-time graphs and comprehensive dashboards powered by advanced data visualization make
+                                trends instantly clear.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-section">
+        <div class="section-header">
+            <div class="section-label">TECHNOLOGY</div>
+            <h2>Built on Modern Stack</h2>
+            <p>Powerful technologies working together to deliver exceptional performance</p>
+        </div>
+
+        <div class="tech-container">
+            <p class="tech-description">AT-PAS utilizes a robust stack including Python Flask for backend logic, SQLite
+                database for persistent data storage, and Power BI for dynamic business intelligence reporting.</p>
+
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon">🐍</div>
+                    <h4>Python Flask</h4>
+                    <p>Backend Framework</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">🗄️</div>
+                    <h4>SQLite</h4>
+                    <p>Database Management</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">📊</div>
+                    <h4>Power BI</h4>
+                    <p>Business Intelligence</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon">📈</div>
+                    <h4>Data Analytics</h4>
+                    <p>Predictive Insights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="section-header">
+            <div class="section-label">THE TEAM</div>
+            <h2>Meet the Architects</h2>
+            <p>The minds behind AT-PAS innovation</p>
+        </div>
+
+        <div class="team-container">
+            <div class="team-card">
+                <div class="team-image">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </div>
+                <div class="team-content">
+                    <h3>Haroon Khurram & Arham Rafique</h3>
+                    <p class="team-role">Project Architects & Developers</p>
+                    <p class="team-bio">This project represents the culmination of Data Analytics and Web Development
+                        expertise applied to educational technology. Our mission is to transform how educational
+                        institutions monitor and support student success through intelligent, data-driven solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AT-PAS</h3>
+                <p>Intelligent Attendance Management System designed for modern educational institutions.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="{{ url_for('features') }}">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Updates</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AT-PAS. Designed by Haroon Khurram & Arham Rafique. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-PAS | Features</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='CSS/home/features.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('home') }}" class="logo">
+                <div class="logo-icon"><img height="80px"
+                        src="{{ url_for('static', filename='Images/AT-PAS(logo).jpg') }}" alt="AT-PAS Logo"></div>
+            </a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('home') }}" class="nav-btn">Home</a></li>
+                <li><a href="{{ url_for('features') }}" class="nav-btn">Features</a></li>
+                <li><a href="{{ url_for('about') }}" class="nav-btn ">About</a></li>
+                <li><a href="{{ url_for('login') }}" class="nav-btn primary">Login to Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <script>
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('is-active');
+            navLinks.classList.toggle('active');
+        });
+    </script>
+
+    <section class="hero">
+        <div class="floating-shapes">
+            <div class="shape shape1"></div>
+            <div class="shape shape2"></div>
+        </div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Transforming Attendance Data into <span class="gradient-text">Proactive Student Success</span></h1>
+                <p>Move beyond reactive tracking. Our system uses advanced analysis to flag students before they reach
+                    the attendance danger zone.</p>
+                <div class="hero-image">
+                    <img src="{{ url_for('static', filename='Images/features.jpg') }}" alt="Features Illustration">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="core-features">
+        <div class="section-header">
+            <div class="section-label">CORE CAPABILITIES</div>
+            <h2>Feature Breakdown</h2>
+            <p>Powerful capabilities designed to revolutionize attendance management</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="{{ url_for('static', filename='Images/brain.jpg') }}" alt="AI Icon">
+                </div>
+                <div class="feature-content">
+                    <h3>Predictive Alert Engine</h3>
+                    <p class="feature-focus">Focus: AI and Intervention</p>
+                    <p>Uses historical records and current trends to generate risk scores for students, alerting faculty
+                        of potential failure before it materializes.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="{{ url_for('static', filename='Images/friendship.jpg') }}" alt="Dashboard Icon">
+                </div>
+                <div class="feature-content">
+                    <h3>Role-Specific Dashboards</h3>
+                    <p class="feature-focus">Focus: User Experience</p>
+                    <p>Dedicated, secure portals for Admin, Teachers and Students roles, ensuring data visibility is
+                        tailored to their needs and security clearance.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <img src="{{ url_for('static', filename='Images/analyze.jpg') }}" alt="Analytics Icon">
+                </div>
+                <div class="feature-content">
+                    <h3>Visual Data Intelligence</h3>
+                    <p class="feature-focus">Focus: Analytics and Reporting</p>
+                    <p>Seamless integration with Power BI for generating deep, interactive visual reports on attendance
+                        trends, grade correlation, and department performance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <div class="section-header">
+            <div class="section-label">USER BENEFITS</div>
+            <h2>Tailored for Every Role</h2>
+            <p>Specific features designed for each user type in your institution</p>
+        </div>
+
+        <div class="benefits-grid">
+            <div class="benefit-card teacher">
+                <div class="benefit-header">
+                    <h3>Teacher Portal</h3>
+                    <p>Efficient Operations & Targeted Interventions</p>
+                </div>
+                <div class="benefit-content">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <img src="{{ url_for('static', filename='Images/grid.jpg') }}" alt="Grid Icon">
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Simple Bulk Marking</h4>
+                            <p>Mark attendance for entire classes in seconds with intuitive bulk entry modes</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <img src="{{ url_for('static', filename='Images/eye.jpg') }}" alt="Eye Icon">
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Real-Time Risk View</h4>
+                            <p>Instant visibility of high-risk students across all your classes</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <img src="{{ url_for('static', filename='Images/bar-chart.jpg') }}" alt="Chart Icon">
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Power BI Integration</h4>
+                            <p>Quick access to comprehensive analytics and performance insights</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="benefit-card student">
+                <div class="benefit-header">
+                    <h3>Student Portal</h3>
+                    <p>Transparency and Self-Monitoring</p>
+                </div>
+                <div class="benefit-content">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <img src="{{ url_for('static', filename='Images/speedometer.jpg') }}"
+                                alt="Speedometer Icon">
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Status Dashboard</h4>
+                            <p>Real-time attendance status gauge showing Safe/Risk indicators</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <img src="{{ url_for('static', filename='Images/calendar.jpg') }}" alt="Calendar Icon">
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Leave Management</h4>
+                            <p>Digital leave application and tracking system for easy management</p>
+                        </div>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <img src="{{ url_for('static', filename='Images/file.jpg') }}" alt="File Icon">
+                        </div>
+                        <div class="benefit-text">
+                            <h4>Complete History</h4>
+                            <p>Full attendance history with detailed audit logs and records</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>AT-PAS</h3>
+                <p>Intelligent Attendance Management System designed for modern educational institutions.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="{{ url_for('features') }}">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Updates</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="{{ url_for('about') }}">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">GDPR</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AT-PAS. Designed by Haroon Khurram & Arham Rafique. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
