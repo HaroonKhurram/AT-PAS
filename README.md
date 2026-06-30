@@ -1,5 +1,14 @@
 # 🧠 Advanced Tracking & Predictive Attendance System (AT‑PAS)
 
+[![Python 3.12](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Flask Framework](https://img.shields.io/badge/Flask-Framework-green.svg)](https://flask.palletsprojects.com/)
+[![SQLite DB](https://img.shields.io/badge/Database-SQLite-lightgrey.svg)](https://www.sqlite.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Status: Stable](https://img.shields.io/badge/Status-Stable-success.svg)]()
+[![Made with ❤️ by Team AT‑PAS](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red.svg)]()
+
+---
+
 ### A Flask‑based web application for automating attendance, predicting student risk, and ensuring transparency across academic roles.
 
 ---
@@ -23,6 +32,26 @@ AT‑PAS follows the **MVC (Model‑View‑Controller)** pattern:
 | **Model** | SQLAlchemy + SQLite | Database schema and ORM |
 | **View** | Jinja2 + HTML/CSS | Dynamic UI templates |
 | **Controller** | Flask | Routing, logic, and authentication |
+
+---
+
+## 🗂️ Folder Structure
+ATPAS/
+│
+├── app.py                     # Main Flask application
+├── extensions.py              # Database initialization
+├── models.py                  # ORM models (User, Student, Attendance, Leave)
+├── templates/                 # HTML templates (Admin, Teacher, Student)
+│   ├── admin/
+│   ├── teacher/
+│   └── student/
+├── static/                    # CSS, JS, and images
+├── instance/                  # SQLite database and uploads
+├── requirements.txt            # Dependencies
+├── .gitignore                 # Ignored files
+├── LICENSE                    # MIT License
+└── README.md                  # Project documentation
+
 
 ---
 
@@ -57,3 +86,14 @@ cd AT-PAS
 # Create virtual environment
 python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Initialize database
+flask shell
+>>> from extensions import db
+>>> db.create_all()
+
+# Run the app
+flask run
